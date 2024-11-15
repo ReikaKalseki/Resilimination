@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfItemEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ItemEntry>
+    <Key>ReikaKalseki.ResinBomb</Key>
+    <Name>Soft Resin Bomb</Name>
+    <Plural>Soft Resin Bombs</Plural>
+    <Type>ItemStack</Type>
+    <!-- Should they stack? -->
+    <Object>UnknownItem</Object>
+    <Sprite>ReikaKalseki.ResinBomb</Sprite>
+    <Category>Consumable</Category>
+  </ItemEntry>
+</ArrayOfItemEntry>

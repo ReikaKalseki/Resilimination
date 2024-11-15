@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GenericAutoCrafterDataEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<FriendlyName>Resin Bomb Fabricator</FriendlyName>
+	<SpawnObject>CryoBombAssembler</SpawnObject>
+	<Value>ReikaKalseki.SoftResinBombMaker</Value>
+			
+	<PowerUsePerSecond>200</PowerUsePerSecond>  <!-- optional -->
+	<PowerTransferPerSecond>400</PowerTransferPerSecond>  <!-- optional -->
+	<MaxPowerStorage>1000</MaxPowerStorage>  <!-- optional -->
+	<CraftingString>Charging...</CraftingString>  <!-- optional -->
+	<WorkingAnimation000></WorkingAnimation000>  <!-- optional -->
+	
+	<CraftTime>10</CraftTime>  <!-- optional -->
+	<OptionalIngredients>false</OptionalIngredients>  <!-- optional -->
+	<Recipe>
+		<Key>ReikaKalseki.ResinBomb</Key>
+		<CraftedName>Soft Resin Bomb</CraftedName>
+		<CraftedAmount>2</CraftedAmount>
+		<Costs>
+			<CraftCost>
+				<Key>ChargeableExplosive</Key><!-- This has to be Name, as it's an item, not a material -->
+				<Amount>1</Amount>
+			</CraftCost>
+			<CraftCost>
+				<Key>LithiumWire</Key>
+				<Amount>2</Amount>
+			</CraftCost>
+			<CraftCost>
+				<Key>SoftResin</Key>
+				<Amount>20</Amount>
+			</CraftCost>
+		</Costs>
+		<Description>Take a quantity of resin, pack it full of incendiary materials, dump in a bunch of power, and light it off to destroy large quantities of soft resin.</Description>
+	</Recipe>
+</GenericAutoCrafterDataEntry>

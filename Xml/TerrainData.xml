@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfTerrainDataEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">	
+	<TerrainDataEntry>
+		<Key>GenericAssemblerMachine</Key>
+		<IsOverride>true</IsOverride>
+		<Values>
+			<ValueEntry>
+				<Key>ReikaKalseki.SoftResinBombMaker</Key>
+				<Name>Resin Bomb Fabricator</Name>
+				<IconName>ReikaKalseki.SoftResinBombMaker</IconName>
+				<Description>Take a quantity of liquid resin, pack it full of incendiary materials, dump in a bunch of power, and light it off to destroy large quantities of soft resin.</Description>
+			</ValueEntry>			
+		</Values>
+	</TerrainDataEntry>		
+  <TerrainDataEntry>
+    <Key>ReikaKalseki.ResinBomberFalcor</Key>
+    <Name>Resin Bomber Falcor</Name>
+    <Description>Drops resin-blasting bombs onto patches of soft resin, clearing it out. Does not harm worms already in the resin.</Description>
+		<LayerType>PrimaryTerrain</LayerType>
+		<TopTexture>187</TopTexture>
+		<SideTexture>187</SideTexture>
+		<BottomTexture>187</BottomTexture>
+		<GUITexture>187</GUITexture>
+		<isSolid>false</isSolid>
+		<isTransparent>true</isTransparent>
+		<isHollow>false</isHollow>
+		<isGlass>false</isGlass>
+		<isPassable>false</isPassable>
+		<hasObject>true</hasObject>
+		<hasEntity>true</hasEntity>
+		<Category>Machine</Category>
+		<AudioWalkType>Metal</AudioWalkType>
+		<AudioBuildType>Dirt</AudioBuildType>
+		<AudioDestroyType>None</AudioDestroyType>
+		<tags>
+			<tag>Machinery</tag>
+		</tags>
+		<Values>
+			<ValueEntry>
+				<Value>0</Value>
+				<Key>ReikaKalseki.ResinBomberFalcor_Key</Key>
+				<Name>Resin Bomber FALCOR</Name>
+				<IconName>ReikaKalseki.ResinBomber</IconName>
+				<Description>Drops resin-blasting bombs onto patches of soft resin, clearing it out. Does not harm worms already in the resin.</Description>
+			</ValueEntry>
+		</Values>
+  </TerrainDataEntry>
+</ArrayOfTerrainDataEntry>
