@@ -32,6 +32,34 @@
 		<Hint>Use this to autoproduce bombs to wipe out soft resin.</Hint>
 		<ResearchCost>5</ResearchCost>
 	</CraftData>
+	<CraftData>
+		<Key>ReikaKalseki.ResinBaker</Key>
+		<Category>decoration</Category>
+		<Tier>1</Tier>
+		<CraftedKey>ReikaKalseki.ResinBaker</CraftedKey>
+		<CraftedAmount>1</CraftedAmount>
+		<Costs>
+			<CraftCost>
+				<Key>IronPlate</Key>
+				<Amount>10</Amount>
+			</CraftCost>
+			<CraftCost>
+				<Key>SpiderBotPowerCore</Key>
+				<Amount>5</Amount>
+			</CraftCost>
+			<CraftCost>
+				<Key>LightweightMachineHousing</Key>
+				<Amount>1</Amount>
+			</CraftCost>
+		</Costs>
+    <ResearchRequirements>
+      <Research>ResinHandling</Research>
+    </ResearchRequirements>
+    <CanCraftAnywhere>false</CanCraftAnywhere>
+		<Description>Bakes soft resin to kill any worm eggs and stiffen the surface, allowing it to be used as flooring material.</Description>
+		<Hint>Does not take time to heat and cool like an ordinary smelter.</Hint>
+		<ResearchCost>1</ResearchCost>
+	</CraftData>
   <CraftData>
     <Key>ReikaKalseki.ResinBomberFalcor</Key>
     <Category>logistics</Category>
