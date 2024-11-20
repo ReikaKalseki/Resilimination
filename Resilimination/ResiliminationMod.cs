@@ -22,6 +22,10 @@ namespace ReikaKalseki.Resilimination
     public ResiliminationMod() : base("Resilimination") {
     	config = new Config<RSConfig.ConfigEntries>(this);
     }
+	
+	public static Config<RSConfig.ConfigEntries> getConfig() {
+		return config;
+	}
 
     public override ModRegistrationData Register()
     {

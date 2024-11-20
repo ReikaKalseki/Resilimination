@@ -23,7 +23,7 @@ public class ResinBomberFalcor : FCoreMachine, PowerConsumerInterface {
 		
 	public static readonly float ANGLE_STEP = 7.5F;
 	public static readonly int MAX_RANGE = 384;
-	public static readonly float MAX_Y_RISE = 18;
+	//public static readonly float MAX_Y_RISE = 18;
 
 	public static readonly int BLAST_RADIUS = 8; //cryo bombers are 6
 	
@@ -183,10 +183,9 @@ public class ResinBomberFalcor : FCoreMachine, PowerConsumerInterface {
 		long x = this.mnX + offset.xCoord;
 		long y = this.mnY + offset.yCoord;
 		long z = this.mnZ + offset.zCoord;
-		Segment s = AttemptGetSegment(x, y, z);
-		
 		//activeFlights.Remove(target);
-		target = WorldUtil.checkSegmentForCube(s, eCubeTypes.Giger, 32767);
+		Segment s;
+		target = findTarget(x, y, z, out s);
 		//if (s == null)
 		//	FUtil.log(this+" got null segment @ "+offset+" (xyz= "+(x-WorldUtil.COORD_OFFSET)+", "+(y-WorldUtil.COORD_OFFSET)+", "+(z-WorldUtil.COORD_OFFSET)+") F="+mFrustrum+", "+mFrustrum.GetSegment(x, y, z)+"/"+WorldScript.instance.GetSegment(x, y, z));
 		//else
@@ -211,6 +210,47 @@ public class ResinBomberFalcor : FCoreMachine, PowerConsumerInterface {
 			
 			//ARTHERPetSurvival.instance.SetARTHERReadoutText("Bombing resin @ "+target, 15, false, true);
 		}
+	}
+	
+	private Coordinate findTarget(long x, long y, long z, out Segment s) {
+		s = AttemptGetSegment(x, y, z);
+		if (!s.isSegmentValid())
+			return null;
+		for (int j = 15; j >= 0; j--) {
+			for (int i = 0; i < 16; i++) {
+				for (int k = 0; k < 16; k++) {
+					if (s.GetCubeNoChecking(i, j, k) == eCubeTypes.Giger && checkEnoughResin(s, i, j, k)) {
+						return new Coordinate(s.baseX + (long)i, s.baseY + (long)j, s.baseZ + (long)k);
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	private bool checkEnoughResin(Segment s, int x, int y, int z) {
+		int min = ResiliminationMod.getConfig().getInt(RSConfig.ConfigEntries.RESIN_BOMB_CLUMP);
+		if (min <= 1)
+			return true;
+		int r = 1;
+		int n = 1;
+		for (int i = -r; i <= r; i++) {
+			for (int j = -r; j <= r; j++) {
+				for (int k = -r; k <= r; k++) {
+					if (i != 0 || j != 0 || k != 0) {
+						int dx = x+i;
+						int dy = y+j;
+						int dz = z+k;
+						Segment s2 = s;
+						if (WorldUtil.adjustCoordinateInPossiblyAdjacentSegment(ref s2, ref dx, ref dy, ref dz, AttemptGetSegment)) {
+							if (s2.GetCubeNoChecking(dx, dy, dz) == eCubeTypes.Giger)
+								n++;
+						}
+					}
+				}
+			}
+		}
+		return n >= min;
 	}
 	
 	private bool isTooClose() {/*
@@ -443,7 +483,7 @@ public class ResinBomberFalcor : FCoreMachine, PowerConsumerInterface {
 		this.mRequest = null;
 	}
 
-	private void VerifyLOS() {
+	private void VerifyLOS() {/*
 		if (this.mRequest == null) {
 			Coordinate c = target == null ? Coordinate.ZERO : target;
 			this.mRequest = RaycastManager.instance.RequestRaycast(this.mnX, this.mnY + (long)this.mnOurRise, this.mnZ, Vector3.zero, c.xCoord, c.yCoord + (long)this.mnTargetRise, c.zCoord, Vector3.zero);
@@ -463,7 +503,9 @@ public class ResinBomberFalcor : FCoreMachine, PowerConsumerInterface {
 			RaycastManager.instance.RenderDebugRay(this.mRequest, 1f, 1f);
 			this.SetNewState(eState.eVerifyRise);
 			this.mRequest = null;
-		}
+		}*/
+		this.SetNewState(eState.eVerifyRise); //no LOS requirement
+		this.mRequest = null;
 	}
 
 	private void UpdateAttachedHoppers(bool lbInput) {
