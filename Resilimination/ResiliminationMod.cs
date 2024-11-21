@@ -90,6 +90,96 @@ namespace ReikaKalseki.Resilimination
 		}
 		return modCreateSegmentEntityResults;
 	}
+    
+    public static void updateOETRequiredCharge() {
+    	if (!MobSpawnManager.mbSurfaceAttacksActive/* && config.getBoolean(RSConfig.ConfigEntries.OET)*/) {
+    		OrbitalEnergyTransmitter.mrMaxPower = Math.Min(OrbitalEnergyTransmitter.mrMaxPower, config.getInt(RSConfig.ConfigEntries.OET_WEAK_COST));
+    	}
+    }
+    
+    public static bool deleteOET(WorldScript world, Segment segment, long x, long y, long z, ushort leType)
+    {
+    	if (!MobSpawnManager.mbSurfaceAttacksActive/* && config.getBoolean(RSonfig.ConfigEntries.OET)*/) {
+    		return true;
+    	}
+        return world.BuildFromEntity(segment,x,y,z,leType);
+    }
+    
+    public static bool doOETBlockEffects(WorldScript world, long x0, long y0, long z0, int size, int hardness) {
+    	if (MobSpawnManager.mbSurfaceAttacksActive/* || !config.getBoolean(FTConfig.ConfigEntries.OET)*/) {
+    	//	WorldScript.instance.Explode(x0, y0, z0, size, hardness);
+    		return WorldScript.instance.SafeExplode(x0, y0, z0, size);
+    	}
+    	else {
+    		clearSoftResin(x0, y0, z0, size);
+    		killWorms(x0, y0, z0, size);
+    		return true;
+    	}
+    }
+    
+    private static void killWorms(long x0, long y0, long z0, int size) {
+		int count = MobManager.instance.mActiveMobs.Count;
+		for (int index = 0; index < count; index++) {
+			MobEntity e = MobManager.instance.mActiveMobs[index];
+			if (e != null && e.mType == MobType.WormBoss && e.mnHealth > 0) {
+				Vector3 vec = Vector3.zero;
+				vec.x = (float) (e.mnX - x0);
+				vec.y = (float) (e.mnY - y0);
+				vec.z = (float) (e.mnZ - z0);
+				if (vec.magnitude <= size*1.25) {
+					e.TakeDamage(Int32.MaxValue); //DIE DIE DIE DIE DIE
+					FloatingCombatTextManager.instance.QueueText(e.mnX, e.mnY + 4L, e.mnZ, 1.5f, "Worm Killed!", Color.magenta, 2F, 4096F);
+				}
+			}
+		}
+    }
+    
+    private static void clearSoftResin(long x0, long y0, long z0, int size) {
+    	size = (int)(size*2.5); //up to 120
+    	int sizey = size/3; //up to 40
+		int maxrSq = size + 1;
+		maxrSq *= maxrSq;
+		HashSet<Segment> hashSet = new HashSet<Segment>();
+		try {
+			for (int i = -size; i <= size; i++) {
+				for (int j = -size; j <= sizey; j++) {
+					for (int k = -size; k <= size; k++) {
+						Vector3 vector = new Vector3((float)j, (float)i, (float)k);
+						int num4 = (int)vector.sqrMagnitude;
+						if (num4 < maxrSq) {
+							long x = x0 + (long)j;
+							long y = y0 + (long)i;
+							long z = z0 + (long)k;
+							Segment segment = WorldScript.instance.GetSegment(x, y, z);
+							if (segment.isSegmentValid()) {
+								if (!segment.mbIsEmpty) {
+									if (!hashSet.Contains(segment)) {
+										hashSet.Add(segment);
+										segment.BeginProcessing();
+									}
+									ushort cube = segment.GetCube(x, y, z);
+									if (cube == eCubeTypes.Giger) {
+										if (WorldScript.instance.BuildFromEntity(segment, x, y, z, eCubeTypes.Air, global::TerrainData.DefaultAirValue)) {
+											DroppedItemData stack = ItemManager.DropNewCubeStack(eCubeTypes.Giger, 0, 1, x, y, z, Vector3.zero);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		finally {
+			foreach (Segment current in hashSet) {
+				if (current.mbHasFluid) {
+					current.FluidSleepTicks = 1;
+				}
+				current.EndProcessing();
+			}
+			WorldScript.instance.mNodeWorkerThread.KickNodeWorkerThread();
+		}
+    }
 
   }
 }

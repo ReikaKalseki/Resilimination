@@ -17,6 +17,8 @@ namespace ReikaKalseki.Resilimination
 			[ConfigEntry("Soft Resin Baking Time (Seconds)", typeof(float), 5, 1, 600, 0)]RESIN_BAKE_TIME,
 			[ConfigEntry("Soft Resin Baking PPS", typeof(int), 32, 1, 250, 0)]RESIN_BAKE_PPS,
 			[ConfigEntry("Soft Resin Bomber Miniumum Resin Cluster Size", typeof(int), 1, 1, 27, 1)]RESIN_BOMB_CLUMP,
+			//[ConfigEntry("Enable post-overmind anti-worm OET strikes", true)]OET,
+			[ConfigEntry("Low-power anti-worm OET strike power cost", typeof(int), 2000000, 1, 100000000, 100000000)]OET_WEAK_COST,
 		}
 	}
 }
