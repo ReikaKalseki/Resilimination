@@ -13,7 +13,6 @@ namespace ReikaKalseki.Resilimination
   public class ResiliminationMod : FCoreMod
   {
     public const string MOD_KEY = "ReikaKalseki.Resilimination";
-    public const string CUBE_KEY = "ReikaKalseki.Resilimination_Key";
     
     private static Config<RSConfig.ConfigEntries> config;
 
@@ -27,20 +26,8 @@ namespace ReikaKalseki.Resilimination
 		return config;
 	}
 
-    public override ModRegistrationData Register()
-    {
-        ModRegistrationData registrationData = new ModRegistrationData();
-        
+    protected override void loadMod(ModRegistrationData registrationData) {        
         config.load();
-        
-        //registrationData.RegisterEntityHandler(MOD_KEY);
-        /*
-        TerrainDataEntry entry;
-        TerrainDataValueEntry valueEntry;
-        TerrainData.GetCubeByKey(CUBE_KEY, out entry, out valueEntry);
-        if (entry != null)
-          ModCubeType = entry.CubeType;
-         */
         
         runHarmony();
         
@@ -75,8 +62,6 @@ namespace ReikaKalseki.Resilimination
 		bake.CraftedAmount = scale;
 		bake.CraftTime = (uint)config.getInt(RSConfig.ConfigEntries.RESIN_BAKE_TIME);
 		GenericAutoCrafterNew.mMachinesByKey["ReikaKalseki.ResinBaker"].PowerUsePerSecond = config.getInt(RSConfig.ConfigEntries.RESIN_BAKE_PPS);
-		
-        return registrationData;
     }
     
 	public override ModCreateSegmentEntityResults CreateSegmentEntity(ModCreateSegmentEntityParameters parameters) {

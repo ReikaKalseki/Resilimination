@@ -21,7 +21,6 @@ namespace ReikaKalseki.Resilimination {
 	
 public class ResinBomberFalcor : FCoreMachine, PowerConsumerInterface {
 		
-	public static readonly float ANGLE_STEP = 7.5F;
 	public static readonly int MAX_RANGE = 384;
 	//public static readonly float MAX_Y_RISE = 18;
 
@@ -159,25 +158,7 @@ public class ResinBomberFalcor : FCoreMachine, PowerConsumerInterface {
 		}
 	}
 
-	private void ScanForTarget() {/*
-		if (this.ScanRadius >= MAX_RANGE) {
-			this.ScanAngle += ANGLE_STEP;
-			this.ScanRadius = 16f;
-		}
-		else {
-			this.ScanRadius += 16f;
-		}
-		Vector3 vector = new Vector3(Mathf.Sin(Mathf.Deg2Rad * this.ScanAngle), 0f, Mathf.Cos(Mathf.Deg2Rad * this.ScanAngle));
-		vector *= this.ScanRadius;
-		long x = this.mnX + (long)vector.x;
-		long y = this.mnY + (long)vector.y;
-		long z = this.mnZ + (long)vector.z;
-		Segment segment = base.AttemptGetSegment(x, y, z);
-		if (segment == null) {
-			this.ScanRadius -= 16f;
-			return;
-		}*/
-			
+	private void ScanForTarget() {			
 		Coordinate offset = searchQueue.getPosition()*16;
 		
 		long x = this.mnX + offset.xCoord;
@@ -717,7 +698,7 @@ public class ResinBomberFalcor : FCoreMachine, PowerConsumerInterface {
 
 	//private float ScanRadius = MAX_RANGE;
 	
-	private readonly FalcorSearchQueue searchQueue = new FalcorSearchQueue(MAX_RANGE/16, -1, 2);
+	private readonly SpiralSearchQueue searchQueue = new SpiralSearchQueue(MAX_RANGE/16, -1, 2);
 
 	private bool mbBombVisualRequested;
 
